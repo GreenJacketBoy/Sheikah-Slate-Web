@@ -1,7 +1,7 @@
 import {Map as maplibreMap} from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
 
-export default function Map({ pointsArray, selectedPoint }) {
+export default function Map({ pointsArray, selectedPoint, setClickCoordinates }) {
 
   const map = useRef(null);
   const mapContainer = useRef(null);
@@ -33,16 +33,32 @@ export default function Map({ pointsArray, selectedPoint }) {
         type: 'symbol',
         source: 'points',
         layout: {
-          'text-field': ['get', 'id'],
-          'text-size': 12,
           'icon-overlap': 'cooperative',
           'text-overlap': 'cooperative',
+          'icon-image': ['get', 'id'],
+          'icon-size': 1,
         }
       });
+
+      map.current.on('click', (event) => {
+        setClickCoordinates(event.lngLat);
+        console.log(event.lngLat);
+        
+      });
+
+      const markerColors = ['red', 'blue', 'yellow', 'green'];
+
+      markerColors.forEach((color) => {
+        map.current.loadImage(`/${color}Marker.png`) 
+        .then(
+          (image) => map.current.addImage(`${color}-marker`, image.data)
+        );
+      });
+
     })
 
   
-  }, [startCoordinates.lng, startCoordinates.lat]);
+  }, [startCoordinates.lng, startCoordinates.lat, setClickCoordinates]);
 
   // useEffect for the points array
   useEffect(() => {
@@ -78,6 +94,14 @@ export default function Map({ pointsArray, selectedPoint }) {
 
 
   }, [pointsArray])
+
+  /**
+   * @param {maplibreMap} map 
+   */
+  function actionOnMapClick(map) {
+
+    // 
+  }
 
 
   return (

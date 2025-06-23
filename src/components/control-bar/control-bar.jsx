@@ -1,6 +1,7 @@
+import ActionsMenu from '../actionsMenu/actionsMenu';
 import { useRef } from 'react';
 
-export default function ControlBar({ pointsArray, setPointsArray }) {
+export default function ControlBar({ pointsArray, setPointsArray, clickCoordinates }) {
 
   const controlBar = useRef(null);
 
@@ -24,6 +25,7 @@ export default function ControlBar({ pointsArray, setPointsArray }) {
   return (
     <div ref={ controlBar } className='control-bar'>
 
+      <ActionsMenu clickCoordinates={clickCoordinates} pointsArray={pointsArray} setPointsArray={setPointsArray} selectedPoint={undefined} ></ActionsMenu>
       <button onClick={addPointAtRandom}> Add Point</button>
 
     </div>

@@ -7,12 +7,13 @@ function App() {
 
   const [pointsArray, setPointArray] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(undefined);
+  const [clickCoordinates, setClickCoordinates] = useState(undefined);
 
   return (
     <div className="App">
       <header className="App-header">
-        <Map pointsArray={pointsArray} selectedPoint={selectedPoint}></Map>
-        <ControlBar pointsArray={pointsArray} setPointsArray={setPointArray} setSelectedPoint={setSelectedPoint}></ControlBar>
+        <Map pointsArray={pointsArray} selectedPoint={selectedPoint} setClickCoordinates={setClickCoordinates}></Map>
+        <ControlBar pointsArray={pointsArray} setPointsArray={setPointArray} setSelectedPoint={setSelectedPoint} clickCoordinates={clickCoordinates}></ControlBar>
       </header>
     </div>
   );
