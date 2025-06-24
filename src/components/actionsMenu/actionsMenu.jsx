@@ -7,7 +7,7 @@ import { useEffect, useRef } from 'react';
  * @param {maplibreMap} props.map
  * @returns 
  */
-export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsArray, selectedPoint }) {
+export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsArray, selectedPoint, setSelectedPoint }) {
 
   const actionsMenu = useRef(null);
 
@@ -95,8 +95,22 @@ export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsAr
     }
   }
 
+  const onDeleteClicked = () => {
+    if (!selectedPoint) {
+      return;
+    }
+
+    const newPointsArray = [...pointsArray]
+    .filter((point) => point.id !== selectedPoint.id);
+    setPointsArray(newPointsArray);
+
+    setSelectedPoint(undefined);
+  }
+
   return (
     <div ref={ actionsMenu } className='actionMenu'>
+
+      <button onClick={onDeleteClicked}>Delete</button>
 
       <div className='markerDiv'>
       {

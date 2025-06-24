@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Map pointsArray={pointsArray} setSelectedPoint={setSelectedPoint} setClickCoordinates={setClickCoordinates}></Map>
-        <ControlBar pointsArray={pointsArray} setPointsArray={setPointArray} setSelectedPoint={setSelectedPoint} clickCoordinates={clickCoordinates} selectedPoint={selectedPoint}></ControlBar>
+        <ControlBar pointsArray={pointsArray} setPointsArray={setPointArray} clickCoordinates={clickCoordinates} selectedPoint={selectedPoint} setSelectedPoint={setSelectedPoint} ></ControlBar>
       </header>
     </div>
   );
