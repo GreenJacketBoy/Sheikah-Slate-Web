@@ -35,7 +35,7 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
         layout: {
           'icon-overlap': 'cooperative',
           'text-overlap': 'cooperative',
-          'icon-image': ['get', 'id'],
+          'icon-image': ['get', 'imageId'],
           'icon-size': 1,
         }
       });
@@ -64,10 +64,19 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
       markerColors.forEach((color) => {
         map.current.loadImage(`/${color}Marker.png`) 
         .then(
-          (image) => map.current.addImage(`${color}-marker`, image.data)
+          (image) => map.current.addImage(`${color}_marker`, image.data)
         );
       });
 
+      const iconTypes = ['skull', 'chest', 'sword'];
+
+      iconTypes.forEach((icon) => {
+        map.current.loadImage(`/${icon}Icon.png`) 
+        .then(
+          (image) => map.current.addImage(`${icon}_icon`, image.data)
+        );
+      });
+      
     })
 
   
@@ -80,6 +89,9 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
 
     for (const p of pointsArray) {
 
+      /** @type array */
+      const idAsArray = p.id.split('_');
+
       features.push(
         {
           id: p.id,
@@ -90,6 +102,8 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
           },
           properties: {
             id: p.id,
+            // 'red-marker' from 'red-marker' or 'chest-icon' from 'chest-2.76-54.33-icon'
+            imageId: `${idAsArray[0]}_${idAsArray[idAsArray.length - 1]}`,
           }
         }
       );
