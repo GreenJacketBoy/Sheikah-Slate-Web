@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // clickCoordinates type : { lng: number, lat: number }
 /**
@@ -7,93 +7,83 @@ import { useEffect, useRef } from 'react';
  * @param {maplibreMap} props.map
  * @returns 
  */
-export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsArray, selectedPoint, setSelectedPoint }) {
+export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsArray, selectedPoint, setSelectedPoint, markerAndIcons, setClickCoordinates }) {
 
   const actionsMenu = useRef(null);
 
-  const markerColors = ['red', 'blue', 'yellow', 'green'];
-  const iconTypes = ['skull', 'chest', 'sword'];
+  const {markerColors, iconTypes} = markerAndIcons;
 
-  const onIconClicked = (icon) => {
+  /**
+   * @param {string} type 'marker' or 'icon'
+   * @param {string} visual the visual identifier, for example 'red' or 'sword'
+   * @param {number} lng longitude
+   * @param {number} lat latitude
+   * @returns 
+   */
+  const addPointToArray = (type, visual, lng, lat) => {
+    if (!type || !visual || !lng || !lat) {
+      return;
+    }
 
-    if (!selectedPoint && clickCoordinates) { // if no points are selected
+    let id = undefined;
+    let newPointsArray = [...pointsArray]
 
-      const {lng, lat} = clickCoordinates;
-
-      const newPointsArray = [...pointsArray]
-      
-      newPointsArray.push(
-        {
-          id: `${icon}_${lng}_${lat}_icon`, // format of icons to have unique identifiers
-          coordinates: [lng, lat],
-        }
-      );
-      setPointsArray(newPointsArray);
-      
-      return;  
+    if (type === 'marker') {
+      id = `${visual}_marker`;
+    }
+    else if (type === 'icon') {
+      id = `${visual}_${lng}_${lat}_icon`;
+    }
+    else {
+      throw new Error(`the only implemented types are marker and icon, not ${type}`);
     }
 
     if (selectedPoint) {
-      /** @type {string} selectedPoint.id */
-      const pointIdAsArray = selectedPoint.id.split('_');
-      if (pointIdAsArray[0] === `${icon}` && pointIdAsArray[3] === 'icon') {
+      // if we modify a point for the exact same point
+      if (selectedPoint.id === id) {
         return;
       }
       
-      
+      if (type === 'marker') { // there can't be 2 markers with the same color
+        newPointsArray = newPointsArray.filter((point) => point.id !== `${visual}_marker` && point.id !== selectedPoint.id);
+      }
+      else { // there can't be 2 icons with the same symbol at the same coordinates (which makes the id)
+        newPointsArray = newPointsArray.filter((point) => point.id !== selectedPoint.id);
+      }      
+    }    
 
-      const newPointsArray = [...pointsArray]
-      .filter((point) => point.id !== selectedPoint.id);
+    newPointsArray.push(
+      {
+        id: id,
+        coordinates: [lng, lat],
+      }
+    );
 
-      newPointsArray.push(
-        {
-          id: `${icon}_${selectedPoint.coordinates[0]}_${selectedPoint.coordinates[1]}_icon`,
-          coordinates: selectedPoint.coordinates,
-        }
-      );
+    setPointsArray(newPointsArray);
+  };
 
-      setPointsArray(newPointsArray);
-    }
-  }
 
-  const onMarkerClicked = (color) => {
-    
-    if (!selectedPoint && clickCoordinates) { // if no points are selected
+  /**
+   * @param {string} type 'marker' or 'icon'
+   * @param {string} visual the visual identifier, for example 'red' or 'sword'
+   */
+  const onActionItemClicked = (type, visual) => {
 
-      const {lng, lat} = clickCoordinates;
-
-      const newPointsArray = [...pointsArray]
-      .filter((point) => point.id !== `${color}_marker`);
-      
-      newPointsArray.push(
-        {
-          id: `${color}_marker`,
-          coordinates: [lng, lat],
-        }
-      );
-      setPointsArray(newPointsArray);
-      
+    if (selectedPoint) {
+      const lngLat = selectedPoint.coordinates;
+      addPointToArray(type, visual, lngLat[0], lngLat[1]);
       return;  
     }
 
-    if (selectedPoint) {
-      if (selectedPoint.id === `${color}_marker`) {
-        return;
-      }
-
-      const newPointsArray = [...pointsArray]
-      .filter((point) => point.id !== `${color}_marker` && point.id !== selectedPoint.id);
-
-      newPointsArray.push(
-        {
-          id: `${color}_marker`,
-          coordinates: selectedPoint.coordinates,
-        }
-      );
-
-      setPointsArray(newPointsArray);
+    if (clickCoordinates) {
+      const {lng, lat} = clickCoordinates;
+      addPointToArray(type, visual, lng, lat);
     }
-  }
+
+    setClickCoordinates(undefined);
+    setSelectedPoint(undefined);
+  };
+
 
   const onDeleteClicked = () => {
     if (!selectedPoint) {
@@ -104,8 +94,10 @@ export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsAr
     .filter((point) => point.id !== selectedPoint.id);
     setPointsArray(newPointsArray);
 
+    setClickCoordinates(undefined);
     setSelectedPoint(undefined);
   }
+
 
   return (
     <div ref={ actionsMenu } className='actionMenu'>
@@ -115,7 +107,7 @@ export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsAr
       <div className='markerDiv'>
       {
         markerColors.map((color, index) => (
-          <img key={`icon_${index}`} src={`/${color}Marker.png`} alt={`${color} marker`} onClick={() => onMarkerClicked(color)} />
+          <img key={`icon_${index}`} src={`/${color}Marker.png`} alt={`${color} marker`} onClick={() => onActionItemClicked('marker', color)} />
         ))
       }
       </div>
@@ -123,7 +115,7 @@ export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsAr
       <div className='iconDiv'>
       {
         iconTypes.map((icon, index) => (
-          <img key={`icon_${index}`} src={`/${icon}Icon.png`} alt={`${icon} icon`} onClick={() => onIconClicked(icon)} />
+          <img key={`icon_${index}`} src={`/${icon}Icon.png`} alt={`${icon} icon`} onClick={() => onActionItemClicked('icon', icon)} />
         ))
       }
       </div>

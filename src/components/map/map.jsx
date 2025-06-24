@@ -1,11 +1,12 @@
 import {Map as maplibreMap} from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
 
-export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates }) {
+export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates, markerAndIcons }) {
 
   const map = useRef(null);
   const mapContainer = useRef(null);
   const startCoordinates = { lng: 0, lat: 0 };
+  const {markerColors, iconTypes} = markerAndIcons;
 
   useEffect(() => {
     if (map.current) return; // stops map from intializing more than once
@@ -59,16 +60,12 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
         }
       });
 
-      const markerColors = ['red', 'blue', 'yellow', 'green'];
-
       markerColors.forEach((color) => {
         map.current.loadImage(`/${color}Marker.png`) 
         .then(
           (image) => map.current.addImage(`${color}_marker`, image.data)
         );
       });
-
-      const iconTypes = ['skull', 'chest', 'sword'];
 
       iconTypes.forEach((icon) => {
         map.current.loadImage(`/${icon}Icon.png`) 
