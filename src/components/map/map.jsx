@@ -1,7 +1,7 @@
 import {Map as maplibreMap} from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
 
-export default function Map({ pointsArray, selectedPoint, setClickCoordinates }) {
+export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates }) {
 
   const map = useRef(null);
   const mapContainer = useRef(null);
@@ -41,9 +41,22 @@ export default function Map({ pointsArray, selectedPoint, setClickCoordinates })
       });
 
       map.current.on('click', (event) => {
-        setClickCoordinates(event.lngLat);
-        console.log(event.lngLat);
-        
+
+        const features = map.current.queryRenderedFeatures(event.point, { layers: ['points-layer'] });
+
+        if (features.length > 0) {
+          const featureId = features[0].properties.id;
+          const newSelectedPoint = {
+            id: featureId,
+            coordinates: features[0].geometry.coordinates
+          };
+
+          setSelectedPoint(newSelectedPoint);
+          setClickCoordinates(undefined);          
+        } else {
+          setSelectedPoint(undefined);
+          setClickCoordinates(event.lngLat);
+        }
       });
 
       const markerColors = ['red', 'blue', 'yellow', 'green'];
@@ -58,7 +71,7 @@ export default function Map({ pointsArray, selectedPoint, setClickCoordinates })
     })
 
   
-  }, [startCoordinates.lng, startCoordinates.lat, setClickCoordinates]);
+  }, [startCoordinates.lng, startCoordinates.lat, setClickCoordinates, setSelectedPoint]);
 
   // useEffect for the points array
   useEffect(() => {
@@ -94,14 +107,6 @@ export default function Map({ pointsArray, selectedPoint, setClickCoordinates })
 
 
   }, [pointsArray])
-
-  /**
-   * @param {maplibreMap} map 
-   */
-  function actionOnMapClick(map) {
-
-    // 
-  }
 
 
   return (

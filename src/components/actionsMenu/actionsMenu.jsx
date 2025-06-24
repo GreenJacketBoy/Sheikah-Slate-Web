@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 // clickCoordinates type : { lng: number, lat: number }
 /**
@@ -14,23 +14,52 @@ export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsAr
   const markerColors = ['red', 'blue', 'yellow', 'green'];
   const iconTypes = []; // TODO : icons in addition to markers
 
+  useEffect(() => {
+    console.log(selectedPoint);
+  }, [selectedPoint])
+
   const onMarkerClicked = (color) => {
     
     if (!selectedPoint && clickCoordinates) { // if no points are selected
 
-      const newPointsArray = [...pointsArray];
       const {lng, lat} = clickCoordinates;
 
+      const newPointsArray = [...pointsArray]
+      .filter((point) => point.id !== `${color}-marker`);
+      
       newPointsArray.push(
         {
           id: `${color}-marker`,
           coordinates: [lng, lat],
         }
       );
-      
       setPointsArray(newPointsArray);
       console.log('check');
       
+      return;  
+    }
+
+    if (selectedPoint) {
+      if (selectedPoint.id === `${color}-marker`) {
+        return;
+      }
+
+      console.log(selectedPoint.id);
+      console.log(color);
+      
+      
+
+      const newPointsArray = [...pointsArray]
+      .filter((point) => point.id !== `${color}-marker` && point.id !== selectedPoint.id);
+
+      newPointsArray.push(
+        {
+          id: `${color}-marker`,
+          coordinates: selectedPoint.coordinates,
+        }
+      );
+
+      setPointsArray(newPointsArray);
     }
   }
 

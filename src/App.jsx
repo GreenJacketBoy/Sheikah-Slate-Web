@@ -12,8 +12,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Map pointsArray={pointsArray} selectedPoint={selectedPoint} setClickCoordinates={setClickCoordinates}></Map>
-        <ControlBar pointsArray={pointsArray} setPointsArray={setPointArray} setSelectedPoint={setSelectedPoint} clickCoordinates={clickCoordinates}></ControlBar>
+        <Map pointsArray={pointsArray} setSelectedPoint={setSelectedPoint} setClickCoordinates={setClickCoordinates}></Map>
+        <ControlBar pointsArray={pointsArray} setPointsArray={setPointArray} setSelectedPoint={setSelectedPoint} clickCoordinates={clickCoordinates} selectedPoint={selectedPoint}></ControlBar>
       </header>
     </div>
   );
