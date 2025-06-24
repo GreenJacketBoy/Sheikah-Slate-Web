@@ -46,3 +46,16 @@
   background-color: aqua;
   width: 100%;
 }
+
+.actionMenu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.actionMenu > * {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
