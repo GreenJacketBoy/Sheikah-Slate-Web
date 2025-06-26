@@ -72,16 +72,20 @@ export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsAr
     if (selectedPoint) {
       const lngLat = selectedPoint.coordinates;
       addPointToArray(type, visual, lngLat[0], lngLat[1]);
+
+      setClickCoordinates(undefined);
+      setSelectedPoint(undefined);
       return;  
     }
 
     if (clickCoordinates) {
       const {lng, lat} = clickCoordinates;
       addPointToArray(type, visual, lng, lat);
+
+      setClickCoordinates(undefined);
+      setSelectedPoint(undefined);
     }
 
-    setClickCoordinates(undefined);
-    setSelectedPoint(undefined);
   };
 
 
