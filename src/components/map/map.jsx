@@ -1,12 +1,33 @@
-import {Map as maplibreMap} from 'maplibre-gl';
+import {Map as maplibreMap, Marker} from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
 
-export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates, markerAndIcons }) {
+export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates, markerAndIcons, selectedPoint, clickCoordinates, selectedPointMarker, setSelectedPointMarker }) {
 
   const map = useRef(null);
   const mapContainer = useRef(null);
   const startCoordinates = { lng: 0, lat: 0 };
   const {markerColors, iconTypes} = markerAndIcons;
+
+  useEffect(() => {
+
+    if (!map.current || !selectedPointMarker) {
+      return;
+    }
+    
+    if (selectedPoint) {
+      selectedPointMarker.setLngLat(selectedPoint.coordinates).addTo(map.current);
+      return;
+    }
+
+    if (clickCoordinates) {
+      selectedPointMarker.setLngLat([clickCoordinates.lng, clickCoordinates.lat]).addTo(map.current);
+      return;
+    }
+
+    selectedPointMarker.remove();
+
+  }, [selectedPoint, clickCoordinates]);
+
 
   useEffect(() => {
     if (map.current) return; // stops map from intializing more than once
@@ -76,8 +97,14 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
       
     })
 
+    const selectedPointMarkerElement = document.createElement('img');
+    selectedPointMarkerElement.setAttribute('key', 'selectedPointImage');
+    selectedPointMarkerElement.setAttribute('src', '/selectedPoint.png');
+    selectedPointMarkerElement.setAttribute('alt', 'Circle representing the selected point');
+
+    setSelectedPointMarker(new Marker({element: selectedPointMarkerElement}));
   
-  }, [startCoordinates.lng, startCoordinates.lat, setClickCoordinates, setSelectedPoint]);
+  }, [startCoordinates.lng, startCoordinates.lat, setClickCoordinates, setSelectedPoint, setSelectedPointMarker, iconTypes, markerColors]);
 
   // useEffect for the points array
   useEffect(() => {

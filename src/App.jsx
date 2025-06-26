@@ -8,6 +8,7 @@ function App() {
   const [pointsArray, setPointArray] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(undefined);
   const [clickCoordinates, setClickCoordinates] = useState(undefined);
+  const [selectedPointMarker, setSelectedPointMarker] = useState(undefined);
 
   const markerAndIcons = {
     markerColors: ['red', 'blue', 'yellow', 'green'],
@@ -17,7 +18,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Map pointsArray={pointsArray} setSelectedPoint={setSelectedPoint} setClickCoordinates={setClickCoordinates} markerAndIcons={markerAndIcons} ></Map>
+        <Map pointsArray={pointsArray} setSelectedPoint={setSelectedPoint} setClickCoordinates={setClickCoordinates} markerAndIcons={markerAndIcons} selectedPoint={selectedPoint} clickCoordinates={clickCoordinates} selectedPointMarker={selectedPointMarker} setSelectedPointMarker={setSelectedPointMarker} ></Map>
         <ControlBar pointsArray={pointsArray} setPointsArray={setPointArray} clickCoordinates={clickCoordinates} selectedPoint={selectedPoint} setSelectedPoint={setSelectedPoint} markerAndIcons={markerAndIcons} setClickCoordinates={setClickCoordinates} ></ControlBar>
       </header>
     </div>
