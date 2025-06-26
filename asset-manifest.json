@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Sheikah-Slate-Web/static/css/main.cce747aa.css",
+    "main.css": "/Sheikah-Slate-Web/static/css/main.95c8ff89.css",
     "main.js": "/Sheikah-Slate-Web/static/js/main.822c5b45.js",
     "static/js/453.127d9d94.chunk.js": "/Sheikah-Slate-Web/static/js/453.127d9d94.chunk.js",
     "index.html": "/Sheikah-Slate-Web/index.html",
-    "main.cce747aa.css.map": "/Sheikah-Slate-Web/static/css/main.cce747aa.css.map",
+    "main.95c8ff89.css.map": "/Sheikah-Slate-Web/static/css/main.95c8ff89.css.map",
     "main.822c5b45.js.map": "/Sheikah-Slate-Web/static/js/main.822c5b45.js.map",
     "453.127d9d94.chunk.js.map": "/Sheikah-Slate-Web/static/js/453.127d9d94.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cce747aa.css",
+    "static/css/main.95c8ff89.css",
     "static/js/main.822c5b45.js"
   ]
 }
