@@ -36,13 +36,8 @@ export default function ChoosePointActionMenu({ pointsArray, setPointsArray, sel
   }
 
   const onCancelClicked = () => {
-
-    const newDisplayedMenus = [...displayedMenus]
-    .filter((menu) => menu !== 'chooseActionPoint');
-
-    setDisplayedMenus(newDisplayedMenus);
-
     setSelectedPoint(undefined);
+    setClickCoordinates(undefined);
   }
 
 

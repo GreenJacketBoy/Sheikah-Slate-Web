@@ -89,15 +89,7 @@ export default function ChoosePointMenu({ clickCoordinates, pointsArray, setPoin
   };
 
 
-  const onDeleteClicked = () => {
-    if (!selectedPoint) {
-      return;
-    }
-
-    const newPointsArray = [...pointsArray]
-    .filter((point) => point.id !== selectedPoint.id);
-    setPointsArray(newPointsArray);
-
+  const onCancelClicked = () => {
     setClickCoordinates(undefined);
     setSelectedPoint(undefined);
   }
@@ -121,6 +113,8 @@ export default function ChoosePointMenu({ clickCoordinates, pointsArray, setPoin
         ))
       }
       </div>
+
+      <button onClick={onCancelClicked}>Cancel</button>
 
     </div>
   );
