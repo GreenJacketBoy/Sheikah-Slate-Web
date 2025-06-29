@@ -111,7 +111,7 @@ export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsAr
       <div className='markerDiv'>
       {
         markerColors.map((color, index) => (
-          <img key={`icon_${index}`} src={`/${color}Marker.png`} alt={`${color} marker`} onClick={() => onActionItemClicked('marker', color)} />
+          <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${color}Marker.png`} alt={`${color} marker`} onClick={() => onActionItemClicked('marker', color)} />
         ))
       }
       </div>
@@ -119,7 +119,7 @@ export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsAr
       <div className='iconDiv'>
       {
         iconTypes.map((icon, index) => (
-          <img key={`icon_${index}`} src={`/${icon}Icon.png`} alt={`${icon} icon`} onClick={() => onActionItemClicked('icon', icon)} />
+          <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${icon}Icon.png`} alt={`${icon} icon`} onClick={() => onActionItemClicked('icon', icon)} />
         ))
       }
       </div>

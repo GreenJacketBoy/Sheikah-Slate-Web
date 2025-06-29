@@ -82,14 +82,14 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
       });
 
       markerColors.forEach((color) => {
-        map.current.loadImage(`/${color}Marker.png`) 
+        map.current.loadImage(`/Sheikah-Slate-Web/${color}Marker.png`) 
         .then(
           (image) => map.current.addImage(`${color}_marker`, image.data)
         );
       });
 
       iconTypes.forEach((icon) => {
-        map.current.loadImage(`/${icon}Icon.png`) 
+        map.current.loadImage(`/Sheikah-Slate-Web/${icon}Icon.png`) 
         .then(
           (image) => map.current.addImage(`${icon}_icon`, image.data)
         );
@@ -99,7 +99,7 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
 
     const selectedPointMarkerElement = document.createElement('img');
     selectedPointMarkerElement.setAttribute('key', 'selectedPointImage');
-    selectedPointMarkerElement.setAttribute('src', '/selectedPoint.png');
+    selectedPointMarkerElement.setAttribute('src', '/Sheikah-Slate-Web/selectedPoint.png');
     selectedPointMarkerElement.setAttribute('alt', 'Circle representing the selected point');
 
     setSelectedPointMarker(new Marker({element: selectedPointMarkerElement}));
