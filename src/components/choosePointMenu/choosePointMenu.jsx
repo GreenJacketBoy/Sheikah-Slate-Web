@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 
 // clickCoordinates type : { lng: number, lat: number }
 /**
@@ -7,9 +7,9 @@ import { useEffect, useRef, useState } from 'react';
  * @param {maplibreMap} props.map
  * @returns 
  */
-export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsArray, selectedPoint, setSelectedPoint, markerAndIcons, setClickCoordinates }) {
+export default function ChoosePointMenu({ clickCoordinates, pointsArray, setPointsArray, selectedPoint, setSelectedPoint, markerAndIcons, setClickCoordinates }) {
 
-  const actionsMenu = useRef(null);
+  const choosePointMenu = useRef(null);
 
   const {markerColors, iconTypes} = markerAndIcons;
 
@@ -104,22 +104,20 @@ export default function ActionsMenu({ clickCoordinates, pointsArray, setPointsAr
 
 
   return (
-    <div ref={ actionsMenu } className='actionMenu'>
-
-      <button onClick={onDeleteClicked}>Delete</button>
-
-      <div className='markerDiv'>
-      {
-        markerColors.map((color, index) => (
-          <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${color}Marker.png`} alt={`${color} marker`} onClick={() => onActionItemClicked('marker', color)} />
-        ))
-      }
-      </div>
+    <div ref={ choosePointMenu } className='choosePointMenu'>
 
       <div className='iconDiv'>
       {
         iconTypes.map((icon, index) => (
           <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${icon}Icon.png`} alt={`${icon} icon`} onClick={() => onActionItemClicked('icon', icon)} />
+        ))
+      }
+      </div>
+
+      <div className='markerDiv'>
+      {
+        markerColors.map((color, index) => (
+          <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${color}Marker.png`} alt={`${color} marker`} onClick={() => onActionItemClicked('marker', color)} />
         ))
       }
       </div>
