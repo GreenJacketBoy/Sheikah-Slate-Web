@@ -42,13 +42,13 @@ export default function ChoosePointActionMenu({ pointsArray, setPointsArray, sel
 
 
   return (
-    <div ref={ choosePointActionMenu } className='choosePointActionMenu'>
+    <div ref={ choosePointActionMenu } className='choose-point-action-menu'>
 
-      <button onClick={onEditClicked}>Edit</button>
+      <button className='action-bar-button' onClick={onEditClicked}>Edit</button>
 
-      <button onClick={onDeleteClicked}>Delete</button>
+      <button className='action-bar-button' onClick={onDeleteClicked}>Delete</button>
 
-      <button onClick={onCancelClicked}>Cancel</button>
+      <button className='action-bar-button' onClick={onCancelClicked}>Cancel</button>
 
     </div>
   );

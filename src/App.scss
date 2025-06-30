@@ -43,17 +43,74 @@
 }
 
 .control-bar {
-  background-color: aqua;
   width: 100%;
-  min-height: 1.5em;
+  max-height: 33vh;
   position: absolute;
   bottom: 0;
-}
 
-.choosePointMenu {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  
+  .choose-point-menu, .choose-point-action-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    background-color: #004688a1;
+    border-top: 0.075em solid #64ceff;
+
+    > * {
+      margin: 0.1em;
+    }
+
+    .stamp-box-title {
+      width: 100%;
+      
+      font-size: 16px;
+      background-color: #0000003d;
+    }
+
+
+    .icon-div, .marker-div {
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+            
+      .point-image-container {
+
+        background-color: #0000007c;
+        display: flex;
+        padding: 5px;
+        margin-left: 2px;
+        margin-right: 2px;
+        border: 0.075em solid #005fb8;
+        transition: border-color 1s ease-out;
+      }
+
+      .point-image-container:hover {
+        border-color: #64ceff;
+        transition: none;
+      }
+    }
+
+    .action-bar-button {
+      width: 15%;
+      background-color: #0000007c;
+      padding: 0.5em;
+      border: 0.75em;
+      border: 2px solid #96ccff;
+      color: #96ccff;
+      transition: all 0.5s ease-out;
+    }
+
+    .action-bar-button:hover {
+        background-color: #0000004f;
+        border-color: #caf4ff;
+        color: #caf4ff;
+        transition: none;
+    }
+  }
+
+  .permanent-bottom-bar {
+    background-color: black;
+    min-height: 1.5em;
+  }
 }

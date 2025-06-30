@@ -1,7 +1,7 @@
 import ChoosePointMenu from '../choosePointMenu/choosePointMenu';
 import ChoosePointActionMenu from '../choosePointActionMenu/choosePointActionMenu';
+import PermanentBottomBar from '../permanentBottomBar/permanentBottomBar';
 import { useEffect, useRef } from 'react';
-import { click } from '@testing-library/user-event/dist/click';
 
 export default function ControlBar({ pointsArray, setPointsArray, clickCoordinates, selectedPoint, setSelectedPoint, markerAndIcons, setClickCoordinates, displayedMenus, setDisplayedMenus }) {
 
@@ -15,8 +15,6 @@ export default function ControlBar({ pointsArray, setPointsArray, clickCoordinat
 
   // should account for every possible state of selectedPoint and clickCoordinates (as in undefined or not)
   useEffect(() => {
-    const choosePointActionDisplayed = displayedMenusRef.current.includes('choosePointAction');
-    const choosePointDisplayed = displayedMenusRef.current.includes('choosePoint');    
 
     if (!clickCoordinates && !selectedPoint) {
       menuEdit([], ['choosePoint', 'chooseActionPoint']);
@@ -56,6 +54,8 @@ export default function ControlBar({ pointsArray, setPointsArray, clickCoordinat
         <ChoosePointMenu clickCoordinates={clickCoordinates} pointsArray={pointsArray} setPointsArray={setPointsArray} selectedPoint={selectedPoint} setSelectedPoint={setSelectedPoint} markerAndIcons={markerAndIcons} setClickCoordinates={setClickCoordinates} ></ChoosePointMenu>
         : ''
       }
+
+      <PermanentBottomBar></PermanentBottomBar>
     </div>
   );
 }

@@ -96,25 +96,32 @@ export default function ChoosePointMenu({ clickCoordinates, pointsArray, setPoin
 
 
   return (
-    <div ref={ choosePointMenu } className='choosePointMenu'>
+    <div ref={ choosePointMenu } className='choose-point-menu'>
 
-      <div className='iconDiv'>
+      <span className='stamp-box-title'>Stamp Box</span>
+
+
+      <div className='icon-div'>
       {
         iconTypes.map((icon, index) => (
-          <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${icon}Icon.png`} alt={`${icon} icon`} onClick={() => onActionItemClicked('icon', icon)} />
+          <div className='point-image-container' onClick={() => onActionItemClicked('icon', icon)} >
+            <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${icon}Icon.png`} alt={`${icon} icon`} />
+          </div>
         ))
       }
       </div>
 
-      <div className='markerDiv'>
+      <div className='marker-div'>
       {
         markerColors.map((color, index) => (
-          <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${color}Marker.png`} alt={`${color} marker`} onClick={() => onActionItemClicked('marker', color)} />
+          <div className='point-image-container' onClick={() => onActionItemClicked('marker', color)} >
+            <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${color}Marker.png`} alt={`${color} marker`} />
+          </div>
         ))
       }
       </div>
 
-      <button onClick={onCancelClicked}>Cancel</button>
+      <button className='action-bar-button' onClick={onCancelClicked}>Cancel</button>
 
     </div>
   );
