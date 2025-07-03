@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Sheikah-Slate-Web/static/css/main.9b0d0688.css",
-    "main.js": "/Sheikah-Slate-Web/static/js/main.b1da0c9b.js",
+    "main.css": "/Sheikah-Slate-Web/static/css/main.e4af48aa.css",
+    "main.js": "/Sheikah-Slate-Web/static/js/main.a54b3e8c.js",
     "static/js/453.127d9d94.chunk.js": "/Sheikah-Slate-Web/static/js/453.127d9d94.chunk.js",
     "index.html": "/Sheikah-Slate-Web/index.html",
-    "main.9b0d0688.css.map": "/Sheikah-Slate-Web/static/css/main.9b0d0688.css.map",
-    "main.b1da0c9b.js.map": "/Sheikah-Slate-Web/static/js/main.b1da0c9b.js.map",
+    "main.e4af48aa.css.map": "/Sheikah-Slate-Web/static/css/main.e4af48aa.css.map",
+    "main.a54b3e8c.js.map": "/Sheikah-Slate-Web/static/js/main.a54b3e8c.js.map",
     "453.127d9d94.chunk.js.map": "/Sheikah-Slate-Web/static/js/453.127d9d94.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.9b0d0688.css",
-    "static/js/main.b1da0c9b.js"
+    "static/css/main.e4af48aa.css",
+    "static/js/main.a54b3e8c.js"
   ]
 }
