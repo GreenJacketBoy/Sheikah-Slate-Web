@@ -18,7 +18,7 @@
 .map-wrap {
   position: relative;
   width: 100%;
-  height: calc(100vh - 3em); 
+  height: calc(100vh - 14vh); 
 
   .map {
     position: absolute;
@@ -118,7 +118,55 @@
   }
 
   .permanent-bottom-bar {
-    background-color: black;
-    min-height: 1.5em;
+    background-image: url(../public/barBackground.png);
+    min-height: 7vh;
+    background-size: auto 100%;
   }
+}
+
+.permanent-top-bar {
+  width: 100%;
+  min-height: 7vh;
+  position: absolute;
+  top: 0;
+  background-image: url(../public/barBackground.png);
+  transform: scaleY(-1);
+  background-size: auto 100%;
+}
+
+.corner {
+  height: 25vh;
+  width: 25vh;
+  position: absolute;
+  background-image: url(../public/cornerDecoration.png);
+  background-size: auto 100%;
+  display:none;
+  pointer-events: none; // OMG THIS IS THE BEST INVENTION EVER !
+}
+
+.corner.bottom-right {
+  bottom: 0;
+  right: 0;
+  display: initial;
+}
+.corner.top-right {
+  top: 0;
+  right: 0;
+  transform: scaleX(-1) scaleY(-1);
+  rotate: 90deg;
+  display: initial;
+}
+.corner.top-left {
+  top: 0;
+  left: 0;
+  rotate: 180deg;
+  display: initial;
+}
+
+.gradient-witchcraft {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, #0091e6 3%, #00000000 9%, #00000000 91% , #0091e6 97%);
+  pointer-events: none; // still the best
 }

@@ -20,7 +20,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Map pointsArray={pointsArray} setSelectedPoint={setSelectedPoint} setClickCoordinates={setClickCoordinates} markerAndIcons={markerAndIcons} selectedPoint={selectedPoint} clickCoordinates={clickCoordinates} selectedPointMarker={selectedPointMarker} setSelectedPointMarker={setSelectedPointMarker} ></Map>
+        <div className='gradient-witchcraft'></div>
+        <div className='permanent-top-bar' />
         <ControlBar pointsArray={pointsArray} setPointsArray={setPointArray} clickCoordinates={clickCoordinates} selectedPoint={selectedPoint} setSelectedPoint={setSelectedPoint} markerAndIcons={markerAndIcons} setClickCoordinates={setClickCoordinates} displayedMenus={displayedMenus} setDisplayedMenus={setDisplayedMenus} ></ControlBar>
+        <div className='corner bottom-right' />
+        <div className='corner top-right' />
+        <div className='corner top-left' />
       </header>
     </div>
   );
