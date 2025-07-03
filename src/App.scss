@@ -89,6 +89,14 @@
         border-color: #64ceff;
         transition: none;
       }
+
+      .used-marker, .used-marker:hover {
+        border-color: #005fb8;
+
+        img {
+          opacity: 0.2;
+        }
+      }
     }
 
     .action-bar-button {

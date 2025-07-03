@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 
 // clickCoordinates type : { lng: number, lat: number }
 /**
@@ -12,6 +12,33 @@ export default function ChoosePointMenu({ clickCoordinates, pointsArray, setPoin
   const choosePointMenu = useRef(null);
 
   const {markerColors, iconTypes} = markerAndIcons;
+
+  const colorsUsedStatusMemo = useMemo(() => {
+
+    const colorsUsedStatus = []; 
+    
+    markerColors.forEach((color) => {
+      colorsUsedStatus.push(
+        {
+          color: color,
+          status: false,
+        }
+      );
+    });
+
+    pointsArray.forEach((point) => {
+      if (point.id.endsWith('_marker')) {
+
+        const color = point.id.replace('_marker', '');
+        const obj = colorsUsedStatus.find((value) => value.color === color);
+          
+        obj.status = true;
+      }
+    });
+
+    return colorsUsedStatus;
+  }, [pointsArray]);
+
 
   /**
    * @param {string} type 'marker' or 'icon'
@@ -113,9 +140,9 @@ export default function ChoosePointMenu({ clickCoordinates, pointsArray, setPoin
 
       <div className='marker-div'>
       {
-        markerColors.map((color, index) => (
-          <div className='point-image-container' onClick={() => onActionItemClicked('marker', color)} >
-            <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${color}Marker.png`} alt={`${color} marker`} />
+        colorsUsedStatusMemo.map((colorStatus, index) => (
+          <div className={`point-image-container ${colorStatus.status ? 'used-marker' : 'unused-marker'}`} onClick={colorStatus.status ? undefined : () => onActionItemClicked('marker', colorStatus.color)} >
+            <img key={`icon_${index}`} src={`/Sheikah-Slate-Web/${colorStatus.color}Marker.png`} alt={`${colorStatus.color} marker`} />
           </div>
         ))
       }
