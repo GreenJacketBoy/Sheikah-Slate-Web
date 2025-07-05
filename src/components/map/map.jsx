@@ -39,7 +39,14 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
       zoom: 1,
     });
 
+    map.current.dragRotate.disable();
+    map.current.keyboard.disable();
+    map.current.touchZoomRotate.disableRotation();
+
+
     map.current.on('load', () => {
+
+      applyMapStyle(map.current);
 
       map.current.addSource('points', {
         type: 'geojson',
@@ -94,6 +101,14 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
           (image) => map.current.addImage(`${icon}_icon`, image.data)
         );
       });
+
+      // adding 2 of my hand drawn pixel images to the map
+      ['sheikahTower', 'shrine'].forEach((imageName) => {
+        map.current.loadImage(`/Sheikah-Slate-Web/${imageName}.png`) 
+          .then(
+            (image) => map.current.addImage(imageName, image.data)
+          );
+      })
       
     })
 
@@ -145,6 +160,122 @@ export default function Map({ pointsArray, setSelectedPoint, setClickCoordinates
 
 
   }, [pointsArray])
+
+
+  /** @param {maplibreMap} mapCurrent */
+  const applyMapStyle = (mapCurrent) => {    
+    
+    const newMapStyle = mapCurrent.getStyle();
+    
+    newMapStyle.layers = newMapStyle.layers
+    .map((layer) => {
+      
+      if (layer.id === 'water-pattern') { // basically all water except river lines        
+        return changePaint(layer, { "fill-color": "rgb(51, 66, 68)"});
+      }
+      if (layer.id === 'boundary-water') { // coast border
+        return changePaint(layer, { "line-color": "rgb(100, 126, 150)"}, true);
+      }
+      if (layer.id === 'water-offset') { // coast border from zoom out
+        return changePaint(layer, {"fill-color": "rgb(100, 126, 150)"}, true);
+      }
+      if (layer.id === 'ferry') { // removes the dashed water paths in seas nd oceans
+        return changeLayout(layer, {"visibility": "none"});
+      }
+      if (layer.id === 'background') { // color of the land
+        return changePaint(layer, { "background-color":"rgb(70, 54, 9)"});
+      }
+      if (layer.id === 'landcover-grass' || layer.id === 'landcover-grass-park') { // remove grass area
+        return changeLayout(layer, {"visibility": "none"});
+      }
+      if (layer.id === 'landcover-wood') { // color of the woods
+        return changePaint(layer, {"fill-color": "rgb(56, 48, 25)", "fill-opacity": 0.7, "fill-outline-color": "rgb(27, 19, 0)"}, true);
+      }
+      if (layer.id === 'landcover-sand') { // color of the sand
+        return changePaint(layer, {"fill-color": "rgb(165, 143, 78)", "fill-opacity": 0.7, "fill-outline-color": "rgb(27, 19, 0)"}, true);
+      }      
+      if (layer.id.includes('landuse')) { // removes styles specific to landuse
+        return changeLayout(layer, {"visibility": "none"});
+      }
+      if (layer.id === 'building') { // color of the building (walls from the false 3d effect)
+        return changePaint(layer, {"fill-color": "rgb(27, 19, 0)"}, true);
+      }
+      if (layer.id === 'building-top') { // color of the top of the building (their roofs)
+        return changePaint(layer, {"fill-color": "rgb(56, 48, 25)", "fill-outline-color": "rgb(27, 19, 0)"}, true);
+      }
+      if (layer.id.includes('highway') && layer.type === 'line') { // color of all types of highway
+        return changePaint(layer, {"line-color": "rgb(149, 143, 91)"}, true);
+      }
+      if (layer.id === 'boundary-land-level-4') { // removes regional separators
+        return changePaint(layer, {"line-color": "rgb(126, 165, 202)", "line-width": 0.2});
+      }
+      if (layer.id === 'boundary-land-level-2') { // color of national separators
+        return changePaint(layer, {"line-color": "rgb(126, 165, 202)", }, true);
+      }
+      if (layer.id === 'boundary-land-disputed') { // color of disputed territory, cool feature, didn't know it existed
+        return changePaint(layer, {"line-color": "rgb(70, 0, 0)", "line-width": 2, "line-dasharray": [1, 4]}, true);
+      }
+      if (layer.id === 'landcover-glacier') { // glaciers color
+        return changePaint(layer, {"fill-color": "rgba(184, 184, 184, 0.3)"}, true);
+      }
+      if (layer.id === 'landcover-ice-shelf') { // ice shelf color 
+        return changePaint(layer, {"fill-color": "rgb(175, 175, 175)"}, true);
+      }
+
+      // Text
+      if (layer.id.includes('name') || layer.id.includes('place')) { // change all text color
+
+        changePaint(layer, {"text-color": "rgb(214, 202, 140)", "text-halo-color": "rgb(146, 123, 65)"}, true);
+
+        if (layer.id === 'place-country-1') { // adds sheikah towers to the country names
+          changeLayout(
+            layer,
+            {
+              'icon-image': 'sheikahTower',
+              'text-variable-anchor': ['right'],
+              'text-offset' : [-0.7, 0],
+              'icon-size': 0.1,
+              'text-font': ['Open Sans Bold Italic'],
+            },
+            true
+          );
+
+          changePaint(layer, {"text-color":"rgb(96, 197, 255)", "text-halo-color": "rgba(0, 0, 0, 0)"}, true);
+        }
+      }
+      if (layer.id.includes('shield')) { // removes highway shields (they don't fit very well in my opinion)
+        return changeLayout(layer, {"visibility": "none"});
+      }
+
+      return layer;
+    });
+
+    mapCurrent.setStyle(newMapStyle);    
+  };
+
+  const changePaint = (layer, newPaint, merge = false) => {
+
+    if (merge) {
+      layer.paint = Object.assign(layer.paint, newPaint);      
+    }
+    else {
+      layer.paint = newPaint;
+    }
+
+    return layer;
+  };
+
+  const changeLayout = (layer, newLayout, merge = false) => {
+
+    if (merge) {
+      layer.layout = Object.assign(layer.layout, newLayout);      
+    }
+    else {
+      layer.layout = newLayout;
+    }
+
+    return layer;
+  };
 
 
   return (
